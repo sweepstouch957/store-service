@@ -22,6 +22,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/owner/:id', async (req, res) => {
+  try {
+    const store = await Store.findOne({ ownerId: req.params.id });
+    if (!store) return res.status(404).json({ error: 'Tienda no encontrada' });
+    res.json(store);
+  } catch (err) {
+    res.status(500).json({ error: 'Error al obtener la tienda' });
+  }
+});
+
+
 router.post('/', async (req, res) => {
   try {
     const store = await Store.create(req.body);
